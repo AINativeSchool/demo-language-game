@@ -5,7 +5,7 @@ Deploy the Next.js app on any Linux VM with Node.js 20+. No database — progres
 The app can run at the site root (`/`) or under a subpath (e.g. `/language`). Set `NEXT_PUBLIC_BASE_PATH` in `.env` before `npm run build` so Next.js routing and client `fetch()` calls share the same prefix (see [`.env.example`](../.env.example)). If unset, `next.config.ts` defaults to `/language`.
 
 ```
-Internet → Nginx (443) → Next.js (:3000) → LLM provider
+Internet → Nginx (443) → Next.js (:3003) → LLM provider
 ```
 
 ## 1. VM setup
@@ -27,9 +27,8 @@ nvm install 24 && nvm alias default 24
 ## 2. Deploy the app
 
 ```bash
-sudo mkdir -p /var/www && sudo chown "$USER":"$USER" /var/www
-cd /var/www
-git clone https://github.com/AINativeSchool/demo-language-game lingocraft && cd lingocraft
+git clone https://github.com/AINativeSchool/demo-language-game /home/exedev/demo-language-game
+cd /home/exedev/demo-language-game
 
 cp .env.example .env   # add your API key; set NEXT_PUBLIC_BASE_PATH if needed
 chmod 600 .env
@@ -37,36 +36,23 @@ chmod 600 .env
 npm ci && npm run build
 ```
 
-Smoke-test: `npm run start` → visit `http://<VM_IP>:3000/language` (or `http://<VM_IP>:3000` when `NEXT_PUBLIC_BASE_PATH` is empty), then `Ctrl+C`.
+Smoke-test: `PORT=3003 npm run start` → visit `http://<VM_IP>:3003/language` (or `http://<VM_IP>:3003` when `NEXT_PUBLIC_BASE_PATH` is empty), then `Ctrl+C`.
 
 ## 3. Run with systemd
 
+A ready-made unit ships in [`deploy/lingocraft.service`](../deploy/lingocraft.service). It runs as `exedev` on port **3003** and loads secrets from `.env` via `EnvironmentFile`.
+
 ```bash
-NODE_BIN=$(dirname "$(nvm which default)")
+cd /home/exedev/demo-language-game
 
-sudo tee /etc/systemd/system/lingocraft.service > /dev/null <<EOF
-[Unit]
-Description=LINGOCRAFT
-After=network.target
-
-[Service]
-Type=simple
-User=$USER
-WorkingDirectory=/var/www/lingocraft
-Environment=NODE_ENV=production
-Environment=PORT=3000
-Environment=PATH=$NODE_BIN:/usr/bin:/bin
-EnvironmentFile=/var/www/lingocraft/.env
-ExecStart=$NODE_BIN/npm run start
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-EOF
+# Edit User, WorkingDirectory, PORT, or ExecStart if your layout differs (e.g. npm via nvm)
+sudo cp deploy/lingocraft.service /etc/systemd/system/
 
 sudo systemctl daemon-reload
 sudo systemctl enable --now lingocraft
 ```
+
+Check status: `systemctl status lingocraft`
 
 ## 4. Nginx + HTTPS
 
@@ -79,7 +65,7 @@ server {
     server_name your-domain.com;
 
     location /language/ {
-        proxy_pass http://127.0.0.1:3000;
+        proxy_pass http://127.0.0.1:3003;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -96,12 +82,12 @@ sudo apt install -y certbot python3-certbot-nginx
 sudo certbot --nginx -d your-domain.com
 ```
 
-Keep port 3000 closed to the public — only Nginx should reach it.
+Keep port 3003 closed to the public — only Nginx should reach it.
 
 ## 5. Updates & ops
 
 ```bash
-cd /var/www/lingocraft
+cd /home/exedev/demo-language-game
 git pull && npm ci && npm run build
 sudo systemctl restart lingocraft
 ```
