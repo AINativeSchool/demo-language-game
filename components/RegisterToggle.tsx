@@ -17,7 +17,7 @@ const OPTIONS: { value: Register; label: string; emoji: string }[] = [
 export default function RegisterToggle({ value, onChange }: RegisterToggleProps) {
   return (
     <div
-      className="inline-flex rounded-2xl bg-brand-100 p-1"
+      className="inline-flex rounded-2xl bg-accent-100 p-1"
       role="group"
       aria-label="Conversation style"
     >
@@ -31,8 +31,8 @@ export default function RegisterToggle({ value, onChange }: RegisterToggleProps)
             aria-pressed={active}
             className={`rounded-xl px-3 py-1.5 text-sm font-extrabold transition ${
               active
-                ? "bg-white text-brand-700 shadow"
-                : "text-brand-700/70 hover:text-brand-700"
+                ? "bg-white text-accent-800 shadow"
+                : "text-accent-700/70 hover:text-accent-800"
             }`}
           >
             <span className="mr-1" aria-hidden>

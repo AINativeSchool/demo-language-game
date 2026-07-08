@@ -32,7 +32,7 @@ A gamified language-learning web app for school students. Learners practice **re
 
 ### 3.2 Gamification & Rewards
 
-- ✅ **Coins** earned by completing conversations/quests; coins convert into **allowed entertainment/screen time**.
+- ✅ **Coins** earned by completing conversations/quests; redeem at the **Screen-Time Shop** for entertainment/screen time.
 - ✅ **Avatars & animated characters** the learner can pick and unlock.
 - ✅ **World map journey:** learner's avatar travels toward/through the country where the language is spoken, unlocking new regions as they progress.
 - ✅ Game-inspired feel (Roblox/Minecraft): playful visuals, exploration, unlockables.
@@ -62,7 +62,7 @@ A gamified language-learning web app for school students. Learners practice **re
 1. ✅ **Home / Map** — world journey, current location, coin balance, avatar.
 2. ✅ **Conversation** — chat UI with AI character + formal/informal toggle + live feedback panel.
 3. ✅ **Vocabulary** — saved words with meaning/example.
-4. ✅ **Rewards/Shop** — spend coins on avatars/characters and screen-time.
+4. ✅ **Screen-Time Shop** — redeem coins for screen-time; buy avatars.
 
 
 

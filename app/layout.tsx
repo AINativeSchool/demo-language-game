@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import Nav from "@/components/Nav";
+import OnboardingTour from "@/components/OnboardingTour";
 
 export const metadata: Metadata = {
   title: "LingoQuest",
   description:
-    "Gamified English conversation practice for school students. Chat, earn coins, and travel the world.",
+    "English for school students. Chat, earn coins, redeem screen time.",
 };
 
 export default function RootLayout({
@@ -27,6 +28,7 @@ export default function RootLayout({
         />
       </head>
       <body className="flex min-h-dvh flex-col">
+        <OnboardingTour />
         <Nav />
         <main className="mx-auto w-full max-w-5xl flex-1 px-4 pb-6 pt-6">
           {children}

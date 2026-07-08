@@ -16,7 +16,7 @@ export default async function ChatPage({
   if (!scenario) {
     return (
       <div className="game-card mx-auto max-w-md p-6 text-center">
-        <h1 className="mb-2 text-xl font-extrabold text-brand-700">Pick a scenario</h1>
+        <h1 className="mb-2 text-xl font-extrabold text-accent-800">Pick a scenario</h1>
         <p className="mb-4 text-sm text-slate-500">
           Choose an adventure to start chatting.
         </p>
@@ -25,12 +25,12 @@ export default async function ChatPage({
             <Link
               key={s.id}
               href={`/chat?scenario=${s.id}`}
-              className="game-btn bg-brand-500 text-white shadow-[0_5px_0_0_var(--color-brand-700)]"
+              className="game-btn bg-accent-600 text-white shadow-[0_5px_0_0_var(--color-accent-700)]"
             >
               {s.emoji} {s.title}
             </Link>
           ))}
-          <Link href="/" className="mt-2 text-sm font-bold text-brand-600">
+          <Link href="/" className="mt-2 text-sm font-bold text-accent-600">
             ← Back to Map
           </Link>
         </div>
@@ -41,7 +41,7 @@ export default async function ChatPage({
   return (
     <div>
       <div className="mb-3">
-        <Link href="/" className="text-sm font-bold text-brand-600">
+        <Link href="/" className="text-sm font-bold text-accent-600">
           ← Back to Map
         </Link>
       </div>

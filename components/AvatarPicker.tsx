@@ -14,7 +14,7 @@ export default function AvatarPicker() {
 
   return (
     <section>
-      <h2 className="mb-3 text-lg font-extrabold text-brand-700">Characters</h2>
+      <h2 className="mb-3 text-lg font-extrabold text-accent-800">Characters</h2>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {AVATARS.map((a) => {
           const isOwned = owned.includes(a.id);
@@ -25,7 +25,9 @@ export default function AvatarPicker() {
             <div
               key={a.id}
               className={`game-card flex flex-col items-center p-4 text-center ${
-                isEquipped ? "ring-4 ring-grass-400" : ""
+                isEquipped
+                  ? "shadow-[0_6px_0_0_var(--color-success-400),0_12px_24px_-10px_#0d948850]"
+                  : ""
               }`}
             >
               <span className="text-4xl" aria-hidden>
@@ -38,7 +40,7 @@ export default function AvatarPicker() {
                   type="button"
                   onClick={() => equipAvatar(a.id)}
                   disabled={isEquipped}
-                  className="game-btn mt-2 w-full bg-grass-500 text-white shadow-[0_5px_0_0_#2b8a45]"
+                  className="game-btn mt-2 w-full bg-success-600 text-white shadow-[0_5px_0_0_var(--color-success-700)]"
                 >
                   {isEquipped ? "Equipped" : "Equip"}
                 </button>
@@ -47,7 +49,7 @@ export default function AvatarPicker() {
                   type="button"
                   onClick={() => buyAvatar(a.id)}
                   disabled={!affordable}
-                  className="game-btn mt-2 w-full bg-coin text-[#5b4300] shadow-[0_5px_0_0_var(--color-coin-dark)]"
+                  className="game-btn mt-2 w-full bg-coin text-brand-800 shadow-[0_5px_0_0_var(--color-coin-dark)]"
                 >
                   🪙 {a.cost}
                 </button>

@@ -1,6 +1,6 @@
 # LingoQuest — Design
 
-Technical design for the LingoQuest MVP described in [REQUIREMENTS.md](REQUIREMENTS.md). A game-like web app where school students practice real-time English conversations with an AI character, choosing a formal or informal register, and earn coins that advance an avatar across a world map.
+Technical design for the LingoQuest MVP described in [REQUIREMENTS.md](REQUIREMENTS.md). A game-like web app for school students — practice English with AI, earn coins for the Screen-Time Shop, and advance an avatar across a world map.
 
 ## 1. Tech Stack
 - **Framework:** Next.js (App Router) + TypeScript — one Node.js app serving both UI and API routes.
@@ -51,14 +51,14 @@ Purpose: a single, dependable entry point for all LLM calls so the UI never brea
 | `/` | Home / Map | World-map avatar journey, coin balance, avatar, scenario picker |
 | `/chat` | Conversation | Chat UI, formal/informal toggle, live feedback panel, coin/XP reward on completion |
 | `/vocabulary` | Vocabulary | Saved words with meaning and example |
-| `/shop` | Rewards / Shop | Spend coins on avatars/characters and redeem screen-time |
+| `/shop` | Screen-Time Shop | Redeem coins for screen-time; buy avatars |
 
-Supporting components: `ChatWindow`, `RegisterToggle`, `FeedbackPanel`, `WorldMap`, `CoinBadge`, `AvatarPicker`.
+Supporting components: `ChatWindow`, `RegisterToggle`, `FeedbackPanel`, `WorldMap`, `CoinBadge`, `AvatarPicker`, `OnboardingTour`, `SchoolBadge`.
 
 ## 7. Gamification Model
 - Coins and XP are awarded per completed conversation.
 - XP drives level, and levels unlock new map regions (avatar travels toward the country where the language is spoken).
-- Coins are spent in the shop on unlockable avatars/animated characters and converted to screen-time via `COINS_PER_MINUTE`.
+- Coins redeem for screen-time at the Screen-Time Shop (`REDEEM_RATE`: 100 coins = 15 min) or buy avatars.
 
 ## 8. Design Decisions (resolved open questions)
 - **Coins → time:** fixed convention (100 coins = 15 min), exposed as an editable constant.

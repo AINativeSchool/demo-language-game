@@ -1,18 +1,17 @@
-// Shop page: spend coins on avatars/characters and redeem coins for screen-time.
+// Shop page: Screen-Time Shop plus avatar unlocks.
 
 import AvatarPicker from "@/components/AvatarPicker";
 import RedeemPanel from "@/components/RedeemPanel";
+import SchoolBadge from "@/components/SchoolBadge";
 
 export default function ShopPage() {
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-extrabold text-brand-700 pixel-shadow">
-          Coin Shop 🛒
+      <div className="flex flex-wrap items-center gap-2">
+        <h1 className="text-2xl font-extrabold text-accent-800 pixel-shadow">
+          Screen-Time Shop 🎮
         </h1>
-        <p className="text-sm text-slate-500">
-          Spend the coins you earned from conversations.
-        </p>
+        <SchoolBadge />
       </div>
       <RedeemPanel />
       <AvatarPicker />

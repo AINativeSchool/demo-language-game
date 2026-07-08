@@ -14,18 +14,14 @@ export default function RedeemPanel() {
 
   return (
     <section className="game-card p-5">
-      <h2 className="mb-1 text-lg font-extrabold text-brand-700">
-        Screen-Time Shop 🎮
-      </h2>
       <p className="mb-4 text-sm text-slate-500">
-        Trade {REDEEM_RATE.coins} coins for {REDEEM_RATE.minutes} minutes of
-        entertainment time.
+        {REDEEM_RATE.coins} coins = {REDEEM_RATE.minutes} min
       </p>
 
-      <div className="flex items-center justify-between rounded-2xl bg-brand-50 p-4">
+      <div className="flex items-center justify-between rounded-2xl bg-brand-50 p-4 shadow-[0_4px_0_0_#fde68a99,0_8px_20px_-10px_#78350f22]">
         <div>
           <p className="text-sm font-bold text-slate-500">Time earned so far</p>
-          <p className="text-2xl font-extrabold text-brand-700">
+          <p className="text-2xl font-extrabold text-brand-800">
             {redeemed} min
           </p>
         </div>
@@ -33,14 +29,14 @@ export default function RedeemPanel() {
           type="button"
           onClick={() => redeemCoins(REDEEM_RATE.coins)}
           disabled={!canRedeem}
-          className="game-btn bg-grass-500 text-white shadow-[0_5px_0_0_#2b8a45]"
+          className="game-btn bg-success-600 text-white shadow-[0_5px_0_0_var(--color-success-700)]"
         >
           Redeem {REDEEM_RATE.minutes} min
         </button>
       </div>
 
       {!canRedeem && (
-        <p className="mt-3 text-center text-xs font-bold text-amber-600">
+        <p className="mt-3 text-center text-xs font-bold text-warning-600">
           Earn {REDEEM_RATE.coins - coins} more coins to redeem.
         </p>
       )}

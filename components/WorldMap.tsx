@@ -14,7 +14,7 @@ export default function WorldMap() {
   return (
     <section className="game-card p-5">
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg font-extrabold text-brand-700">Your Journey</h2>
+        <h2 className="text-lg font-extrabold text-accent-800">Your Journey</h2>
         <span className="text-sm font-bold text-slate-500">
           Level {profile?.level ?? 1}
         </span>
@@ -27,10 +27,10 @@ export default function WorldMap() {
           return (
             <li
               key={region.id}
-              className={`relative flex min-w-[92px] flex-1 flex-col items-center rounded-2xl border-2 p-3 text-center transition ${
+              className={`relative flex min-w-[92px] flex-1 flex-col items-center rounded-2xl p-3 text-center transition ${
                 reached
-                  ? "border-grass-400 bg-emerald-50"
-                  : "border-slate-200 bg-slate-50 opacity-60"
+                  ? "bg-success-50 shadow-[0_4px_0_0_#2dd4bf55,0_8px_18px_-8px_#0d948840]"
+                  : "bg-slate-50 opacity-60 shadow-[0_2px_8px_-4px_#4c1d9515]"
               }`}
             >
               <span className="text-3xl" aria-hidden>

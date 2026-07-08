@@ -16,7 +16,7 @@ export default function VocabList() {
         </p>
         <Link
           href="/"
-          className="game-btn inline-block bg-brand-500 text-white shadow-[0_5px_0_0_var(--color-brand-700)]"
+          className="game-btn inline-block bg-accent-600 text-white shadow-[0_5px_0_0_var(--color-accent-700)]"
         >
           Start a chat
         </Link>
@@ -28,7 +28,7 @@ export default function VocabList() {
     <div className="grid gap-3 sm:grid-cols-2">
       {vocab.map((w) => (
         <div key={`${w.word}-${w.addedAt}`} className="game-card p-4">
-          <p className="text-lg font-extrabold text-emerald-700">{w.word}</p>
+          <p className="text-lg font-extrabold text-success-700">{w.word}</p>
           <p className="text-sm text-slate-600">{w.meaning}</p>
           {w.example && (
             <p className="mt-1 text-xs italic text-slate-500">“{w.example}”</p>

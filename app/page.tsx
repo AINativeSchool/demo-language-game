@@ -1,8 +1,8 @@
-// Home screen: player hero, world-map journey, and the scenario picker.
+// Home screen: player hero, world map, and scenario picker.
 
 import PlayerHero from "@/components/PlayerHero";
-import WorldMap from "@/components/WorldMap";
 import ScenarioPicker from "@/components/ScenarioPicker";
+import WorldMap from "@/components/WorldMap";
 
 export default function HomePage() {
   return (

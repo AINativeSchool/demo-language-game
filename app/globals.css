@@ -1,21 +1,46 @@
 @import "tailwindcss";
 
+/*
+ * Color system (split-complementary on yellow ~45°):
+ * - brand (gold): warm backgrounds & reward highlights
+ * - accent (violet): primary UI — complements gold for strong contrast
+ * - success (teal): triadic progress & positive actions
+ * - warning (orange): split-complement corrections & alerts
+ */
 @theme {
   --font-display: "Baloo 2", ui-rounded, "Segoe UI", system-ui, sans-serif;
 
-  --color-brand-50: #eef6ff;
-  --color-brand-100: #d9eaff;
-  --color-brand-300: #7db8ff;
-  --color-brand-500: #2f7dff;
-  --color-brand-600: #1f63e6;
-  --color-brand-700: #184fc0;
+  --color-brand-50: #fffbeb;
+  --color-brand-100: #fef3c7;
+  --color-brand-200: #fde68a;
+  --color-brand-400: #fbbf24;
+  --color-brand-500: #f59e0b;
+  --color-brand-700: #78350f;
+  --color-brand-800: #451a03;
 
-  --color-grass-400: #52c26b;
-  --color-grass-500: #34a853;
-  --color-sky-top: #8fd0ff;
-  --color-sky-bottom: #cdeaff;
-  --color-coin: #ffcb2e;
-  --color-coin-dark: #e0a500;
+  --color-accent-50: #f5f3ff;
+  --color-accent-100: #ede9fe;
+  --color-accent-400: #a78bfa;
+  --color-accent-500: #7c3aed;
+  --color-accent-600: #6d28d9;
+  --color-accent-700: #5b21b6;
+  --color-accent-800: #4c1d95;
+
+  --color-success-50: #f0fdfa;
+  --color-success-400: #2dd4bf;
+  --color-success-500: #14b8a6;
+  --color-success-600: #0d9488;
+  --color-success-700: #0f766e;
+  --color-success-800: #115e59;
+
+  --color-warning-50: #fff7ed;
+  --color-warning-600: #ea580c;
+  --color-warning-700: #c2410c;
+
+  --color-sky-top: #fde68a;
+  --color-sky-bottom: #faf5ff;
+  --color-coin: #fbbf24;
+  --color-coin-dark: #b45309;
 }
 
 :root {
@@ -26,30 +51,33 @@ body {
   font-family: var(--font-display);
   background:
     radial-gradient(1200px 600px at 50% -10%, var(--color-sky-top), transparent),
-    linear-gradient(180deg, var(--color-sky-bottom), #eaf6ff 60%, #f4fbff);
+    linear-gradient(180deg, var(--color-sky-bottom), #fffbeb 55%, #ffffff);
   min-height: 100dvh;
-  color: #123;
+  color: #1e1b4b;
 }
 
 /* Chunky, game-like card + button styles reused across screens. */
 .game-card {
   border-radius: 1.25rem;
   background: #ffffff;
-  border: 3px solid #0f2a4a1a;
-  box-shadow: 0 8px 0 0 #0f2a4a14, 0 14px 24px -12px #0f2a4a55;
+  box-shadow:
+    0 8px 0 0 #4c1d9514,
+    0 14px 28px -10px #4c1d9548,
+    0 2px 6px -2px #4c1d9518;
 }
 
 .game-btn {
   border-radius: 0.9rem;
   font-weight: 800;
   padding: 0.65rem 1.1rem;
-  border: 3px solid #00000014;
-  box-shadow: 0 5px 0 0 #00000022;
+  box-shadow:
+    0 5px 0 0 #00000024,
+    0 3px 10px -3px #00000018;
   transition: transform 0.06s ease, box-shadow 0.06s ease;
 }
 .game-btn:active {
   transform: translateY(4px);
-  box-shadow: 0 1px 0 0 #00000022;
+  box-shadow: 0 1px 0 0 #00000024;
 }
 .game-btn:disabled {
   opacity: 0.55;
@@ -57,5 +85,5 @@ body {
 }
 
 .pixel-shadow {
-  text-shadow: 2px 2px 0 #0f2a4a22;
+  text-shadow: 2px 2px 0 #4c1d9528;
 }

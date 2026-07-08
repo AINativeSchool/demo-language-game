@@ -104,13 +104,13 @@ export default function ChatWindow({ scenario }: ChatWindowProps) {
   return (
     <div className="grid gap-4 lg:grid-cols-[1fr_320px]">
       <div className="game-card flex h-[70vh] flex-col overflow-hidden">
-        <div className="flex items-center justify-between gap-3 border-b border-slate-200/70 p-3">
+        <div className="flex items-center justify-between gap-3 bg-white/90 p-3 shadow-[0_4px_12px_-10px_#4c1d9525]">
           <div className="flex items-center gap-2">
             <span className="text-2xl" aria-hidden>
               {scenario.emoji}
             </span>
             <div>
-              <p className="font-extrabold leading-tight text-brand-700">{scenario.title}</p>
+              <p className="font-extrabold leading-tight text-accent-800">{scenario.title}</p>
               <p className="text-xs text-slate-500">{scenario.goal}</p>
             </div>
           </div>
@@ -118,7 +118,7 @@ export default function ChatWindow({ scenario }: ChatWindowProps) {
         </div>
 
         <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto p-4">
-          <div className="rounded-xl bg-brand-50 p-3 text-sm text-brand-700">
+          <div className="rounded-xl bg-brand-50 p-3 text-sm text-brand-800 shadow-[0_3px_10px_-6px_#78350f25]">
             {scenario.description} Say hello to get started!
           </div>
 
@@ -130,8 +130,8 @@ export default function ChatWindow({ scenario }: ChatWindowProps) {
               <div
                 className={`max-w-[80%] rounded-2xl px-3.5 py-2 text-sm ${
                   m.role === "user"
-                    ? "bg-brand-500 text-white shadow-[0_3px_0_0_var(--color-brand-700)]"
-                    : "bg-white text-slate-800 shadow"
+                    ? "bg-accent-600 text-white shadow-[0_3px_0_0_var(--color-accent-700)]"
+                    : "bg-white text-slate-800 shadow-[0_2px_8px_-2px_#4c1d9528]"
                 }`}
               >
                 {m.content}
@@ -148,18 +148,26 @@ export default function ChatWindow({ scenario }: ChatWindowProps) {
           )}
         </div>
 
-        <div className="border-t border-slate-200/70 p-3">
+        <div className="bg-brand-50/50 p-3 shadow-[0_-4px_14px_-10px_#4c1d9528]">
           {finished ? (
-            <div className="flex items-center justify-between gap-3 rounded-xl bg-emerald-50 px-3 py-2">
-              <p className="text-sm font-bold text-emerald-700">
-                🎉 Great chat! +{reward?.coins} coins, +{reward?.xp} XP
+            <div className="flex items-center justify-between gap-3 rounded-xl bg-success-50 px-3 py-2">
+              <p className="text-sm font-bold text-success-800">
+                🎉 +{reward?.coins} coins, +{reward?.xp} XP
               </p>
-              <Link
-                href="/"
-                className="game-btn bg-grass-500 text-white shadow-[0_5px_0_0_#2b8a45]"
-              >
-                Back to Map
-              </Link>
+              <div className="flex shrink-0 gap-2">
+                <Link
+                  href="/shop"
+                  className="game-btn bg-accent-600 text-white shadow-[0_5px_0_0_var(--color-accent-700)]"
+                >
+                  Shop 🎮
+                </Link>
+                <Link
+                  href="/"
+                  className="game-btn bg-success-600 text-white shadow-[0_5px_0_0_var(--color-success-700)]"
+                >
+                  Map
+                </Link>
+              </div>
             </div>
           ) : (
             <div className="flex items-center gap-2">
@@ -169,13 +177,13 @@ export default function ChatWindow({ scenario }: ChatWindowProps) {
                 onKeyDown={onKeyDown}
                 placeholder="Type your reply…"
                 disabled={loading}
-                className="flex-1 rounded-xl border-2 border-slate-200 px-3 py-2 text-sm outline-none focus:border-brand-400"
+                className="flex-1 rounded-xl bg-white px-3 py-2 text-sm shadow-[inset_0_2px_6px_#4c1d9512,0_1px_3px_#4c1d950a] outline-none focus:shadow-[inset_0_2px_6px_#4c1d9518,0_0_0_3px_#a78bfa55]"
               />
               <button
                 type="button"
                 onClick={send}
                 disabled={loading || !input.trim()}
-                className="game-btn bg-brand-500 text-white shadow-[0_5px_0_0_var(--color-brand-700)]"
+                className="game-btn bg-accent-600 text-white shadow-[0_5px_0_0_var(--color-accent-700)]"
               >
                 Send
               </button>
@@ -188,7 +196,7 @@ export default function ChatWindow({ scenario }: ChatWindowProps) {
                     ? "Finish and collect your reward"
                     : `Chat a bit more (${learnerTurns}/${MIN_LEARNER_TURNS})`
                 }
-                className="game-btn bg-coin text-[#5b4300] shadow-[0_5px_0_0_var(--color-coin-dark)]"
+                className="game-btn bg-coin text-brand-800 shadow-[0_5px_0_0_var(--color-coin-dark)]"
               >
                 Finish
               </button>
