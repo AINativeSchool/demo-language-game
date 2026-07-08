@@ -1,0 +1,15 @@
+[Unit]
+Description=LingoCraft Next.js app
+After=network.target
+
+[Service]
+Type=simple
+User=exedev
+WorkingDirectory=/home/exedev/demo-language-game
+Environment=NODE_ENV=production
+Environment=PORT=3003
+ExecStart=/usr/bin/npm run start
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

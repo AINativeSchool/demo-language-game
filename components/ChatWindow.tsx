@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import RegisterToggle from "./RegisterToggle";
 import FeedbackPanel from "./FeedbackPanel";
+import { apiUrl } from "@/lib/apiUrl";
 import { COINS_PER_CONVERSATION, XP_PER_CONVERSATION } from "@/lib/constants";
 import { addVocabulary, awardConversationRewards } from "@/lib/store";
 import type {
@@ -53,7 +54,7 @@ export default function ChatWindow({ scenario }: ChatWindowProps) {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/chat", {
+      const res = await fetch(apiUrl("/api/chat"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

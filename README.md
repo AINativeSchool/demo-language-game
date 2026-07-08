@@ -55,7 +55,7 @@ npm ci && npm run build
 npm run start
 ```
 
-Full VM setup (Nginx, systemd, HTTPS, updates): see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+Full VM setup (Nginx, systemd, HTTPS, updates): see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). A systemd unit is included at [`deploy/lingocraft.service`](deploy/lingocraft.service).
 
 ## Gamification constants
 
