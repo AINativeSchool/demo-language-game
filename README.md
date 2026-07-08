@@ -9,7 +9,7 @@ See [REQUIREMENTS.md](REQUIREMENTS.md) and [DESIGN.md](DESIGN.md) for the full s
 - Next.js (App Router) + TypeScript
 - Tailwind CSS v4
 - Browser `localStorage` as the primary store (no accounts, no database in v1)
-- Server-only LLM access through a resilient client (`lib/llm.ts`) behind `app/api/chat`
+- Server-only LLM access via [resilient-llm](https://www.npmjs.com/package/resilient-llm) ([GitHub](https://github.com/gitcommitshow/resilient-llm)) — wrapped in `lib/llm.ts` behind `app/api/chat`
 
 
 
@@ -21,23 +21,13 @@ See [REQUIREMENTS.md](REQUIREMENTS.md) and [DESIGN.md](DESIGN.md) for the full s
 npm install
 ```
 
-1. Configure the LLM. Copy the example env file and add your key:
+1. Configure the LLM. Copy the example env file and add your provider key:
 
 ```bash
 cp .env.example .env.local
 ```
 
-The client uses the standard OpenAI environment variables:
-
-
-| Variable          | Required | Default                     | Purpose                               |
-| ----------------- | -------- | --------------------------- | ------------------------------------- |
-| `OPENAI_API_KEY`  | Yes      | -                           | OpenAI API key (server-side only)     |
-| `OPENAI_BASE_URL` | No       | `https://api.openai.com/v1` | OpenAI-compatible base URL            |
-| `OPENAI_MODEL`    | No       | `gpt-5.4-nano`              | Model name (latest low-cost GPT nano) |
-
-
-> Only `OPENAI_API_KEY` is required; base URL and model default automatically. Without a key, conversations still work using a built-in graceful fallback, but replies won't be AI-generated.
+Copy [`.env.example`](.env.example) and set your provider key. LingoQuest uses [resilient-llm](https://www.npmjs.com/package/resilient-llm) ([GitHub](https://github.com/gitcommitshow/resilient-llm)) — swap `PREFERRED_AI_SERVICE` / `PREFERRED_AI_MODEL` and the matching API key. Without a key, chat falls back to a built-in non-AI message.
 
 1. Run the dev server:
 
@@ -59,5 +49,5 @@ Coins-to-screen-time is a fixed, editable convention in [lib/constants.ts](lib/c
 
 - `app/` - pages (`/` map, `/chat`, `/vocabulary`, `/shop`) and `app/api/chat` route
 - `components/` - UI building blocks (chat, world map, register toggle, etc.)
-- `lib/` - [Resilient LLM](https://github.com/gitcommitshow/resilient-llm) client, localStorage store, scenarios, types, constants
+- `lib/` - [resilient-llm](https://www.npmjs.com/package/resilient-llm) wrapper (`lib/llm.ts`), localStorage store, scenarios, types, constants
 

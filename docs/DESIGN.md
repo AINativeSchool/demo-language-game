@@ -6,30 +6,24 @@ Technical design for the LingoQuest MVP described in [REQUIREMENTS.md](REQUIREME
 - **Framework:** Next.js (App Router) + TypeScript — one Node.js app serving both UI and API routes.
 - **Styling:** Tailwind CSS (playful, Roblox/Minecraft-inspired visuals).
 - **Storage:** Browser `localStorage` as the primary store (no database, no accounts in v1).
-- **LLM access:** Server-side only, via a Next.js API route that wraps a resilient LLM client. The browser never sees the API key.
+- **LLM access:** Server-side only, via a Next.js API route that wraps [resilient-llm](https://www.npmjs.com/package/resilient-llm) ([GitHub](https://github.com/gitcommitshow/resilient-llm)) in `lib/llm.ts`. The browser never sees the API key.
 
 ## 2. High-Level Architecture
 
 ```mermaid
 flowchart LR
   UI[Next.js Client UI] -->|POST messages, register, scenario| API["/api/chat route"]
-  API --> LLM[Resilient LLM client]
-  LLM -->|retry, timeout, fallback| Provider[LLM API]
+  API --> LLM["lib/llm.ts (resilient-llm)"]
+  LLM -->|retry, timeout, fallback| Provider[LLM provider API]
   UI <-->|read/write progress, vocab| LS[localStorage store]
 ```
 
 - The client sends conversation messages plus the chosen register (formal/informal) and scenario to `/api/chat`.
-- The API route calls the resilient LLM client, which returns a single structured JSON payload: the assistant reply, gentle corrections, and any new vocabulary.
+- The API route calls `lib/llm.ts`, which delegates to [resilient-llm](https://www.npmjs.com/package/resilient-llm) ([GitHub](https://github.com/gitcommitshow/resilient-llm)) and returns a single structured JSON payload: the assistant reply, gentle corrections, and any new vocabulary.
 - The UI renders the reply and feedback, auto-saves new words, and updates coins/XP/map progress in `localStorage`.
 
 ## 3. Configuration
-Environment variables in `.env.local` (provided by the user, documented in the README):
-
-| Variable | Required | Default | Purpose |
-| --- | --- | --- | --- |
-| `OPENAI_API_KEY` | Yes | - | OpenAI API key (server-side only) |
-| `OPENAI_BASE_URL` | No | `https://api.openai.com/v1` | OpenAI-compatible base URL |
-| `OPENAI_MODEL` | No | `gpt-5.4-nano` | Model name (latest low-cost GPT nano) |
+Copy [`.env.example`](../.env.example) to `.env.local`. Provider and model are set via `PREFERRED_AI_SERVICE` and `PREFERRED_AI_MODEL`; see [resilient-llm](https://www.npmjs.com/package/resilient-llm) ([GitHub](https://github.com/gitcommitshow/resilient-llm)) for all supported providers and env vars.
 
 App constant:
 - `COINS_PER_MINUTE` — coins-to-screen-time convention. Default: **100 coins = 15 min** (editable).
@@ -45,11 +39,11 @@ Accessed through a typed, SSR-safe store module (`lib/store.ts`).
 ## 5. Resilient LLM Client (`lib/llm.ts`)
 Purpose: a single, dependable entry point for all LLM calls so the UI never breaks.
 
-- **Timeout:** `AbortController` cancels slow requests.
-- **Retry:** exponential backoff on `429` and `5xx` responses.
-- **Fallback:** returns a graceful, in-character message if all attempts fail.
+- **Provider layer:** [resilient-llm](https://www.npmjs.com/package/resilient-llm) ([GitHub](https://github.com/gitcommitshow/resilient-llm)) handles retries, exponential backoff, circuit breaking, and rate limiting.
+- **Timeout:** 20 s per request via resilient-llm's `timeout` option (overridable with `LLM_TIMEOUT`).
+- **Fallback:** returns a graceful, in-character message if all attempts fail or no API key is set.
 - **Prompting:** builds the system prompt from the selected register (formal vs. informal) and the active scenario, and constrains tone/topic to be school-appropriate.
-- **Structured output:** requests JSON of the form `{ reply, corrections[], newWords[] }`.
+- **Structured output:** requests JSON of the form `{ reply, corrections[], newWords[] }` via `responseFormat: { type: "json_object" }`.
 
 ## 6. Screens & Routes
 | Route | Screen | Responsibility |
@@ -68,7 +62,7 @@ Supporting components: `ChatWindow`, `RegisterToggle`, `FeedbackPanel`, `WorldMa
 
 ## 8. Design Decisions (resolved open questions)
 - **Coins → time:** fixed convention (100 coins = 15 min), exposed as an editable constant.
-- **Provider:** OpenAI-compatible endpoint configured via env, so providers can be swapped without code changes.
+- **Provider:** [resilient-llm](https://www.npmjs.com/package/resilient-llm) ([GitHub](https://github.com/gitcommitshow/resilient-llm)) — swap providers via `PREFERRED_AI_SERVICE` / `PREFERRED_AI_MODEL` without code changes.
 - **Kid-safety:** enforced in v1 through the system prompt (school-appropriate topic/tone); real content moderation is a noted follow-up.
 
 ## 9. Out of Scope (v1)

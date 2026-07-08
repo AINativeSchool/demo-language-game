@@ -28,7 +28,7 @@ export interface StoredVocab extends VocabWord {
   addedAt: number;
 }
 
-// The structured payload returned by the resilient LLM client.
+// The structured payload returned by lib/llm.ts (resilient-llm wrapper).
 export interface LlmResult {
   reply: string;
   corrections: Correction[];

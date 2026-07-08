@@ -1,19 +1,20 @@
 // Resilient LLM client for LingoQuest.
 //
-// Wraps an OpenAI-compatible chat completions API with a request timeout,
-// exponential-backoff retries on transient errors (429/5xx/network), and a
-// graceful in-character fallback so the conversation UI never breaks even when
-// the provider is unavailable or unconfigured.
+// Delegates provider calls to resilient-llm (https://www.npmjs.com/package/resilient-llm,
+// https://github.com/gitcommitshow/resilient-llm) and maps structured JSON into the
+// app's LlmResult shape. Falls back gracefully when the provider is unavailable.
 
+import { ProviderRegistry, ResilientLLM } from "resilient-llm";
+import type { ChatMessage as ResilientChatMessage } from "resilient-llm";
 import type { ChatMessage, LlmResult, Register, Scenario } from "./types";
 
 const TIMEOUT_MS = 20_000;
-const MAX_RETRIES = 3;
-const BASE_BACKOFF_MS = 500;
-
-// Standard OpenAI-compatible defaults; overridable via environment variables.
-const DEFAULT_BASE_URL = "https://api.openai.com/v1";
+const DEFAULT_SERVICE = "openai";
 const DEFAULT_MODEL = "gpt-5.4-nano";
+const DEFAULT_RETRIES = 3;
+const DEFAULT_BACKOFF = 2;
+const DEFAULT_RATE_LIMIT_RPM = 30;
+const DEFAULT_RATE_LIMIT_TPM = 60000;
 
 interface ChatOptions {
   messages: ChatMessage[];
@@ -47,11 +48,6 @@ function buildSystemPrompt(register: Register, scenario: ChatOptions["scenario"]
   ].join("\n");
 }
 
-// Sleep helper for backoff.
-function delay(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 // A safe, encouraging response used when the provider cannot be reached.
 function fallbackResult(): LlmResult {
   return {
@@ -63,20 +59,27 @@ function fallbackResult(): LlmResult {
   };
 }
 
-// Pull the model's JSON content out of a chat-completions response and parse it.
-function parseCompletion(json: unknown): LlmResult {
-  const content =
-    (json as { choices?: { message?: { content?: string } }[] })?.choices?.[0]
-      ?.message?.content ?? "";
+// Map resilient-llm structured output into the app's LlmResult contract.
+function normalizeResult(content: string | Record<string, unknown> | null): LlmResult {
+  let parsed: Partial<LlmResult>;
 
-  // Strip accidental code fences before parsing.
-  const cleaned = content
-    .trim()
-    .replace(/^```(?:json)?/i, "")
-    .replace(/```$/i, "")
-    .trim();
+  if (typeof content === "string") {
+    try {
+      const cleaned = content
+        .trim()
+        .replace(/^```(?:json)?/i, "")
+        .replace(/```$/i, "")
+        .trim();
+      parsed = JSON.parse(cleaned) as Partial<LlmResult>;
+    } catch {
+      return { reply: content, corrections: [], newWords: [] };
+    }
+  } else if (content && typeof content === "object") {
+    parsed = content as Partial<LlmResult>;
+  } else {
+    return { reply: "", corrections: [], newWords: [] };
+  }
 
-  const parsed = JSON.parse(cleaned) as Partial<LlmResult>;
   return {
     reply: typeof parsed.reply === "string" ? parsed.reply : "",
     corrections: Array.isArray(parsed.corrections) ? parsed.corrections : [],
@@ -84,87 +87,85 @@ function parseCompletion(json: unknown): LlmResult {
   };
 }
 
-// Determine whether a failed attempt is worth retrying.
-function isRetryableStatus(status: number): boolean {
-  return status === 429 || status >= 500;
+// Resolve the active provider and model from resilient-llm env conventions.
+function resolveServiceAndModel(): { aiService: string; model: string } {
+  return {
+    aiService: process.env.PREFERRED_AI_SERVICE ?? DEFAULT_SERVICE,
+    model: process.env.PREFERRED_AI_MODEL ?? DEFAULT_MODEL,
+  };
 }
 
-// Single provider call guarded by an AbortController timeout.
-async function callProvider(
-  url: string,
-  apiKey: string,
-  model: string,
-  messages: ChatMessage[],
-): Promise<Response> {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
-  try {
-    return await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model,
-        messages,
-        response_format: { type: "json_object" },
-      }),
-      signal: controller.signal,
+// Return true when resilient-llm can authenticate the chosen provider.
+function hasProviderApiKey(aiService: string): boolean {
+  return ProviderRegistry.hasApiKey(aiService);
+}
+
+let openAiProviderConfigured = false;
+
+// Apply OPENAI_BASE_URL once so resilient-llm routes to a compatible endpoint.
+function ensureOpenAiProvider(): void {
+  if (openAiProviderConfigured) return;
+
+  const baseUrl = process.env.OPENAI_BASE_URL;
+  if (baseUrl) {
+    ProviderRegistry.configure("openai", {
+      baseUrl: baseUrl.replace(/\/+$/, ""),
     });
-  } finally {
-    clearTimeout(timer);
   }
+
+  openAiProviderConfigured = true;
+}
+
+// Parse a numeric env var, falling back when unset or invalid.
+function envInt(name: string, fallback: number): number {
+  const raw = process.env[name];
+  if (!raw) return fallback;
+  const value = Number(raw);
+  return Number.isFinite(value) ? value : fallback;
+}
+
+// Build resilient-llm client options from env (generation caps read by resilient-llm itself).
+function buildLlmOptions(aiService: string, model: string) {
+  return {
+    aiService,
+    model,
+    timeout: envInt("LLM_TIMEOUT", TIMEOUT_MS),
+    retries: envInt("LLM_RETRIES", DEFAULT_RETRIES),
+    backoffFactor: envInt("LLM_BACKOFF_FACTOR", DEFAULT_BACKOFF),
+    rateLimitConfig: {
+      requestsPerMinute: envInt("RATE_LIMIT_RPM", DEFAULT_RATE_LIMIT_RPM),
+      llmTokensPerMinute: envInt("RATE_LIMIT_TPM", DEFAULT_RATE_LIMIT_TPM),
+    },
+  };
+}
+
+// Build a resilient-llm client from server env vars; null when unconfigured.
+function createLlmClient(): ResilientLLM | null {
+  const { aiService, model } = resolveServiceAndModel();
+  if (!hasProviderApiKey(aiService)) return null;
+
+  if (aiService === "openai") ensureOpenAiProvider();
+
+  return new ResilientLLM(buildLlmOptions(aiService, model));
 }
 
 // Public entry point: run a conversation turn and return structured results.
 export async function chat(options: ChatOptions): Promise<LlmResult> {
-  // Read the standard OpenAI env vars; base URL and model fall back to sane
-  // defaults so only OPENAI_API_KEY is strictly required.
-  const apiKey = process.env.OPENAI_API_KEY;
-  const baseUrl = process.env.OPENAI_BASE_URL ?? DEFAULT_BASE_URL;
-  const model = process.env.OPENAI_MODEL ?? DEFAULT_MODEL;
-
-  // Without an API key we cannot call a provider; degrade gracefully.
-  if (!apiKey) {
-    return fallbackResult();
-  }
-
-  const url = `${baseUrl.replace(/\/+$/, "")}/chat/completions`;
+  const llm = createLlmClient();
+  if (!llm) return fallbackResult();
 
   const messages: ChatMessage[] = [
     { role: "system", content: buildSystemPrompt(options.register, options.scenario) },
     ...options.messages,
   ];
 
-  let lastError: unknown = null;
-
-  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
-    try {
-      const res = await callProvider(url, apiKey, model, messages);
-
-      if (res.ok) {
-        return parseCompletion(await res.json());
-      }
-
-      if (isRetryableStatus(res.status) && attempt < MAX_RETRIES) {
-        await delay(BASE_BACKOFF_MS * 2 ** attempt);
-        continue;
-      }
-
-      // Non-retryable HTTP error (e.g. 400/401): stop and fall back.
-      lastError = new Error(`Provider responded ${res.status}`);
-      break;
-    } catch (err) {
-      // Network errors, timeouts, or JSON parse failures.
-      lastError = err;
-      if (attempt < MAX_RETRIES) {
-        await delay(BASE_BACKOFF_MS * 2 ** attempt);
-        continue;
-      }
-    }
+  try {
+    const { content } = await llm.chat(messages as ResilientChatMessage[], {
+      responseFormat: { type: "json_object" },
+    });
+    return normalizeResult(content);
+  } catch (err) {
+    console.error("LLM chat failed, using fallback:", err);
+    return fallbackResult();
   }
-
-  console.error("LLM chat failed, using fallback:", lastError);
-  return fallbackResult();
 }

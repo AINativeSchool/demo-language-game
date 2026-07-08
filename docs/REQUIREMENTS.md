@@ -69,7 +69,7 @@ A gamified language-learning web app for school students. Learners practice **re
 ## 6. Open Questions
 
 - Exact coin → entertainment-time conversion and who sets it (student vs. parent).
-- Which LLM/provider powers conversations (cost, latency, safety filtering for kids).: Use resilient-llm library with which we will be able to change the LLM.
+- Which LLM/provider powers conversations (cost, latency, safety filtering for kids): [resilient-llm](https://www.npmjs.com/package/resilient-llm) ([GitHub](https://github.com/gitcommitshow/resilient-llm)) — change provider/model via env (see [`.env.example`](../.env.example)).
 - Content safety & moderation approach for a kids' audience.
 - Difficulty scaling: how AI adjusts to learner level over time.
 

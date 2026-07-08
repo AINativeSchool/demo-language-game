@@ -1,6 +1,7 @@
 // Chat API route: validates the incoming conversation request and delegates to
-// the resilient LLM client. The client's fallback guarantees a 200 response
-// even when the provider is misconfigured or unavailable.
+// lib/llm.ts (resilient-llm — https://www.npmjs.com/package/resilient-llm). The
+// client's fallback guarantees a 200 response even when the provider is
+// misconfigured or unavailable.
 
 import { NextResponse } from "next/server";
 import { chat } from "@/lib/llm";
