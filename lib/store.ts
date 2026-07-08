@@ -10,9 +10,9 @@ import {
 import { AVATARS, MAP_REGIONS } from "./scenarios";
 import type { Profile, StoredVocab, VocabWord } from "./types";
 
-const PROFILE_KEY = "lingoquest.profile";
-const VOCAB_KEY = "lingoquest.vocab";
-export const STORE_EVENT = "lingoquest:store-updated";
+const PROFILE_KEY = "lingocraft.profile";
+const VOCAB_KEY = "lingocraft.vocab";
+export const STORE_EVENT = "lingocraft:store-updated";
 
 const DEFAULT_PROFILE: Profile = {
   avatarId: "explorer",

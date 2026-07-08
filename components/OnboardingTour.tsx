@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { REDEEM_RATE } from "@/lib/constants";
 
-const ONBOARDING_KEY = "lingoquest.onboarding-complete";
+const ONBOARDING_KEY = "lingocraft.onboarding-complete";
 
 export default function OnboardingTour() {
   const [open, setOpen] = useState(false);

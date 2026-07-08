@@ -26,7 +26,7 @@ nvm install 24 && nvm alias default 24
 ```bash
 sudo mkdir -p /var/www && sudo chown "$USER":"$USER" /var/www
 cd /var/www
-git clone <YOUR_REPO_URL> lingoquest && cd lingoquest
+git clone https://github.com/AINativeSchool/demo-language-game lingocraft && cd lingocraft
 
 cp .env.example .env   # add your API key
 chmod 600 .env
@@ -41,7 +41,7 @@ Smoke-test: `npm run start` → visit `http://<VM_IP>:3000`, then `Ctrl+C`.
 ```bash
 NODE_BIN=$(dirname "$(nvm which default)")
 
-sudo tee /etc/systemd/system/lingoquest.service > /dev/null <<EOF
+sudo tee /etc/systemd/system/lingocraft.service > /dev/null <<EOF
 [Unit]
 Description=LINGOCRAFT
 After=network.target
@@ -49,11 +49,11 @@ After=network.target
 [Service]
 Type=simple
 User=$USER
-WorkingDirectory=/var/www/lingoquest
+WorkingDirectory=/var/www/lingocraft
 Environment=NODE_ENV=production
 Environment=PORT=3000
 Environment=PATH=$NODE_BIN:/usr/bin:/bin
-EnvironmentFile=/var/www/lingoquest/.env
+EnvironmentFile=/var/www/lingocraft/.env
 ExecStart=$NODE_BIN/npm run start
 Restart=always
 
@@ -62,13 +62,13 @@ WantedBy=multi-user.target
 EOF
 
 sudo systemctl daemon-reload
-sudo systemctl enable --now lingoquest
+sudo systemctl enable --now lingocraft
 ```
 
 ## 4. Nginx + HTTPS
 
 ```bash
-sudo tee /etc/nginx/sites-available/lingoquest > /dev/null <<'EOF'
+sudo tee /etc/nginx/sites-available/lingocraft > /dev/null <<'EOF'
 server {
     listen 80;
     server_name your-domain.com;
@@ -83,7 +83,7 @@ server {
 }
 EOF
 
-sudo ln -sf /etc/nginx/sites-available/lingoquest /etc/nginx/sites-enabled/
+sudo ln -sf /etc/nginx/sites-available/lingocraft /etc/nginx/sites-enabled/
 sudo rm -f /etc/nginx/sites-enabled/default
 sudo nginx -t && sudo systemctl reload nginx
 
@@ -96,12 +96,12 @@ Keep port 3000 closed to the public — only Nginx should reach it.
 ## 5. Updates & ops
 
 ```bash
-cd /var/www/lingoquest
+cd /var/www/lingocraft
 git pull && npm ci && npm run build
-sudo systemctl restart lingoquest
+sudo systemctl restart lingocraft
 ```
 
-- **Logs:** `journalctl -u lingoquest -f`
+- **Logs:** `journalctl -u lingocraft -f`
 - **Health:** `/` returns 200; chat uses `POST /api/chat`
 - **Fallback:** missing/invalid LLM key → non-AI fallback reply; check logs for `LLM chat failed, using fallback`
 - **Sizing:** 1 vCPU / 1 GB RAM is fine for light use (add swap if the build runs out of memory)
