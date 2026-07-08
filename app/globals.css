@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Baloo 2", ui-rounded, "Segoe UI", system-ui, sans-serif;
+
+  --color-brand-50: #eef6ff;
+  --color-brand-100: #d9eaff;
+  --color-brand-300: #7db8ff;
+  --color-brand-500: #2f7dff;
+  --color-brand-600: #1f63e6;
+  --color-brand-700: #184fc0;
+
+  --color-grass-400: #52c26b;
+  --color-grass-500: #34a853;
+  --color-sky-top: #8fd0ff;
+  --color-sky-bottom: #cdeaff;
+  --color-coin: #ffcb2e;
+  --color-coin-dark: #e0a500;
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  font-family: var(--font-display);
+  background:
+    radial-gradient(1200px 600px at 50% -10%, var(--color-sky-top), transparent),
+    linear-gradient(180deg, var(--color-sky-bottom), #eaf6ff 60%, #f4fbff);
+  min-height: 100dvh;
+  color: #123;
+}
+
+/* Chunky, game-like card + button styles reused across screens. */
+.game-card {
+  border-radius: 1.25rem;
+  background: #ffffff;
+  border: 3px solid #0f2a4a1a;
+  box-shadow: 0 8px 0 0 #0f2a4a14, 0 14px 24px -12px #0f2a4a55;
+}
+
+.game-btn {
+  border-radius: 0.9rem;
+  font-weight: 800;
+  padding: 0.65rem 1.1rem;
+  border: 3px solid #00000014;
+  box-shadow: 0 5px 0 0 #00000022;
+  transition: transform 0.06s ease, box-shadow 0.06s ease;
+}
+.game-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 0 #00000022;
+}
+.game-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.pixel-shadow {
+  text-shadow: 2px 2px 0 #0f2a4a22;
+}
