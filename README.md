@@ -1,8 +1,19 @@
-# LingoQuest
+# LINGOCRAFT
 
-English practice for **school students**. Chat with AI, earn coins and XP, travel a world map — and redeem coins at the **Screen-Time Shop** 🎮 (100 coins = 15 min).
+Craft your English! A **Minecraft/Roblox-style** language game for **school students**. Chat with characters, mine 💎 gems and XP, hop across a block-world map — and trade gems at the **Loot Shop** 🎮 (100 gems = 15 min screen time).
 
 See [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md) and [docs/DESIGN.md](docs/DESIGN.md) for the full spec.
+
+## Features
+
+- 🗺️ Hop across a block-world map as your skin unlocks new stages!
+- 🤖 Chat with AI characters in real-life quests—get instant grammar and vocab boosts!
+- 🎭 Toggle formal or casual mode—AI matches your vibe!
+- 📦 Level up your lingo—stash epic words as loot in your Word Chest!
+- 💎 Mine gems and XP for every quest win!
+- 🦸 Pick, unlock, and flex awesome skins!
+- 🕹️ Trade gems at the Loot Shop for real screen time (100 gems = 15 min)!
+- 💾 Your adventure, your browser—no logins needed!
 
 ## Tech
 
@@ -22,10 +33,10 @@ npm install
 2. Configure the LLM. Copy the example env file and add your provider key:
 
 ```bash
-cp .env.example .env.local
+cp .env.example .env
 ```
 
-Copy [`.env.example`](.env.example) and set your provider key. LingoQuest uses [resilient-llm](https://www.npmjs.com/package/resilient-llm) ([GitHub](https://github.com/gitcommitshow/resilient-llm)) — swap `PREFERRED_AI_SERVICE` / `PREFERRED_AI_MODEL` and the matching API key. Without a key, chat falls back to a built-in non-AI message.
+Copy [`.env.example`](.env.example) to `.env` and set your provider key. LINGOCRAFT uses [resilient-llm](https://www.npmjs.com/package/resilient-llm) ([GitHub](https://github.com/gitcommitshow/resilient-llm)) — swap `PREFERRED_AI_SERVICE` / `PREFERRED_AI_MODEL` and the matching API key. Without a key, chat falls back to a built-in non-AI message.
 
 3. Run the dev server:
 
@@ -34,6 +45,17 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
+
+## Deploy
+
+Production install and build (clean install from lockfile):
+
+```bash
+npm ci && npm run build
+npm run start
+```
+
+Full VM setup (Nginx, systemd, HTTPS, updates): see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ## Gamification constants
 

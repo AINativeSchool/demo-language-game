@@ -51,6 +51,10 @@ export interface MapRegion {
   id: string;
   name: string;
   emoji: string;
+  /** Atmospheric city/place photo used as the map pin background. */
+  imageUrl: string;
+  /** Short flavor line shown on the active stop. */
+  blurb: string;
 }
 
 // A cosmetic avatar the learner can own / unlock in the shop.

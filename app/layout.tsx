@@ -5,9 +5,9 @@ import Nav from "@/components/Nav";
 import OnboardingTour from "@/components/OnboardingTour";
 
 export const metadata: Metadata = {
-  title: "LingoQuest",
+  title: "LINGOCRAFT",
   description:
-    "English for school students. Chat, earn coins, redeem screen time.",
+    "Craft your English! Chat with characters, mine gems, and build your skill on the block world map.",
 };
 
 export default function RootLayout({
@@ -23,7 +23,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Press+Start+2P&display=swap"
           rel="stylesheet"
         />
       </head>

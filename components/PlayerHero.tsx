@@ -18,12 +18,12 @@ export default function PlayerHero() {
 
   return (
     <section className="game-card flex items-start gap-4 p-5">
-      <div className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-brand-100 text-4xl">
+      <div className="grid h-16 w-16 shrink-0 place-items-center rounded-[0.4rem] border-[3px] border-accent-200 bg-brand-100 text-4xl shadow-[inset_0_-4px_0_#00000012]">
         <span aria-hidden>{avatar?.emoji ?? "🧑‍🚀"}</span>
       </div>
       <div className="min-w-0 flex-1">
-        <p className="text-xl font-extrabold text-accent-800">
-          Welcome back, Explorer!
+        <p className="text-lg font-extrabold text-accent-800 sm:text-xl">
+          Welcome back, Crafter!
         </p>
         <div className="mt-2 flex items-center gap-2">
           <span className="text-sm font-bold text-slate-500">Lvl {level}</span>

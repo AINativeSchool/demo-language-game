@@ -1,4 +1,4 @@
-// SSR-safe localStorage store for LingoQuest progress.
+// SSR-safe localStorage store for LINGOCRAFT progress.
 //
 // This is the app's primary storage (no backend DB). All writes dispatch a
 // window event so any mounted component (e.g. the coin badge) can refresh.

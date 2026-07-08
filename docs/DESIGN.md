@@ -1,6 +1,6 @@
-# LingoQuest — Design
+# LINGOCRAFT — Design
 
-Technical design for the LingoQuest MVP described in [REQUIREMENTS.md](REQUIREMENTS.md). A game-like web app for school students — practice English with AI, earn coins for the Screen-Time Shop, and advance an avatar across a world map.
+Technical design for the LINGOCRAFT MVP described in [REQUIREMENTS.md](REQUIREMENTS.md). A Minecraft/Roblox-style web game for school students — practice English with AI characters, mine gems for the Loot Shop, and advance a skin across a block-world map.
 
 ## 1. Tech Stack
 - **Framework:** Next.js (App Router) + TypeScript — one Node.js app serving both UI and API routes.
@@ -23,7 +23,7 @@ flowchart LR
 - The UI renders the reply and feedback, auto-saves new words, and updates coins/XP/map progress in `localStorage`.
 
 ## 3. Configuration
-Copy [`.env.example`](../.env.example) to `.env.local`. Provider and model are set via `PREFERRED_AI_SERVICE` and `PREFERRED_AI_MODEL`; see [resilient-llm](https://www.npmjs.com/package/resilient-llm) ([GitHub](https://github.com/gitcommitshow/resilient-llm)) for all supported providers and env vars.
+Copy [`.env.example`](../.env.example) to `.env`. Provider and model are set via `PREFERRED_AI_SERVICE` and `PREFERRED_AI_MODEL`; see [resilient-llm](https://www.npmjs.com/package/resilient-llm) ([GitHub](https://github.com/gitcommitshow/resilient-llm)) for all supported providers and env vars.
 
 App constant:
 - `COINS_PER_MINUTE` — coins-to-screen-time convention. Default: **100 coins = 15 min** (editable).

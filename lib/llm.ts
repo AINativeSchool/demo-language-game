@@ -1,4 +1,4 @@
-// Resilient LLM client for LingoQuest.
+// Resilient LLM client for LINGOCRAFT.
 //
 // Delegates provider calls to resilient-llm (https://www.npmjs.com/package/resilient-llm,
 // https://github.com/gitcommitshow/resilient-llm) and maps structured JSON into the
@@ -30,7 +30,7 @@ function buildSystemPrompt(register: Register, scenario: ChatOptions["scenario"]
       : "Speak in relaxed, informal English (friendly, casual, everyday expressions and contractions).";
 
   return [
-    "You are a friendly AI character in LingoQuest, a language game for school-aged students learning English.",
+    "You are a friendly AI character in LINGOCRAFT, a Minecraft/Roblox-style language game for school-aged students learning English.",
     "Keep every message safe, encouraging, and appropriate for children. Avoid any mature, violent, or unsafe topics.",
     `Scenario: ${scenario.title}. ${scenario.description} Goal: ${scenario.goal}`,
     tone,

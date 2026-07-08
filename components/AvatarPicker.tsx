@@ -14,7 +14,7 @@ export default function AvatarPicker() {
 
   return (
     <section>
-      <h2 className="mb-3 text-lg font-extrabold text-accent-800">Characters</h2>
+      <h2 className="mb-3 text-base text-accent-800 pixel-title">Skins</h2>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         {AVATARS.map((a) => {
           const isOwned = owned.includes(a.id);
@@ -40,7 +40,7 @@ export default function AvatarPicker() {
                   type="button"
                   onClick={() => equipAvatar(a.id)}
                   disabled={isEquipped}
-                  className="game-btn mt-2 w-full bg-success-600 text-white shadow-[0_5px_0_0_var(--color-success-700)]"
+                  className="block-btn mt-2 w-full bg-success-600 text-white"
                 >
                   {isEquipped ? "Equipped" : "Equip"}
                 </button>
@@ -49,9 +49,9 @@ export default function AvatarPicker() {
                   type="button"
                   onClick={() => buyAvatar(a.id)}
                   disabled={!affordable}
-                  className="game-btn mt-2 w-full bg-coin text-brand-800 shadow-[0_5px_0_0_var(--color-coin-dark)]"
+                  className="block-btn mt-2 w-full bg-success-400 text-success-800"
                 >
-                  🪙 {a.cost}
+                  💎 {a.cost}
                 </button>
               )}
             </div>

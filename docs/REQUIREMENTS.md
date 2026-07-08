@@ -1,4 +1,4 @@
-# LingoQuest Requirements
+# LINGOCRAFT Requirements
 
 A gamified language-learning web app for school students. Learners practice **real-time text conversations** with AI characters to build fluency and vocabulary, choosing a **formal or informal** register. Designed to feel more like a game (Roblox/Minecraft energy) than a flashcard app.
 

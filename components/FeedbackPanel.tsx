@@ -14,11 +14,11 @@ export default function FeedbackPanel({ corrections, newWords }: FeedbackPanelPr
 
   return (
     <aside className="game-card h-full p-4">
-      <h2 className="mb-3 text-lg font-extrabold text-accent-800">Coach</h2>
+      <h2 className="mb-3 text-base text-accent-800 pixel-title">Guide 🧭</h2>
 
       {!hasContent && (
         <p className="text-sm text-slate-500">
-          Tips and new words will pop up here as you chat. Keep going! 💬
+          Tips and word loot will drop here as you chat. Keep crafting! 💬
         </p>
       )}
 

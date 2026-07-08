@@ -152,20 +152,14 @@ export default function ChatWindow({ scenario }: ChatWindowProps) {
           {finished ? (
             <div className="flex items-center justify-between gap-3 rounded-xl bg-success-50 px-3 py-2">
               <p className="text-sm font-bold text-success-800">
-                🎉 +{reward?.coins} coins, +{reward?.xp} XP
+                🎉 +{reward?.coins} 💎, +{reward?.xp} XP
               </p>
               <div className="flex shrink-0 gap-2">
-                <Link
-                  href="/shop"
-                  className="game-btn bg-accent-600 text-white shadow-[0_5px_0_0_var(--color-accent-700)]"
-                >
+                <Link href="/shop" className="block-btn bg-accent-600 text-white">
                   Shop 🎮
                 </Link>
-                <Link
-                  href="/"
-                  className="game-btn bg-success-600 text-white shadow-[0_5px_0_0_var(--color-success-700)]"
-                >
-                  Map
+                <Link href="/" className="block-btn bg-success-600 text-white">
+                  World
                 </Link>
               </div>
             </div>
@@ -183,7 +177,7 @@ export default function ChatWindow({ scenario }: ChatWindowProps) {
                 type="button"
                 onClick={send}
                 disabled={loading || !input.trim()}
-                className="game-btn bg-accent-600 text-white shadow-[0_5px_0_0_var(--color-accent-700)]"
+                className="block-btn bg-accent-600 text-white"
               >
                 Send
               </button>
@@ -193,10 +187,10 @@ export default function ChatWindow({ scenario }: ChatWindowProps) {
                 disabled={!canFinish}
                 title={
                   canFinish
-                    ? "Finish and collect your reward"
+                    ? "Finish and collect your loot"
                     : `Chat a bit more (${learnerTurns}/${MIN_LEARNER_TURNS})`
                 }
-                className="game-btn bg-coin text-brand-800 shadow-[0_5px_0_0_var(--color-coin-dark)]"
+                className="block-btn bg-success-400 text-success-800"
               >
                 Finish
               </button>

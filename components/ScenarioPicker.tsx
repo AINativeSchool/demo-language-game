@@ -12,8 +12,8 @@ export default function ScenarioPicker() {
 
   return (
     <section>
-      <h2 className="mb-3 text-lg font-extrabold text-accent-800">
-        Choose an Adventure
+      <h2 className="mb-3 text-base text-accent-800 pixel-title">
+        Choose a Quest
       </h2>
       <div className="grid gap-3 sm:grid-cols-2">
         {SCENARIOS.map((s) => {
@@ -32,7 +32,7 @@ export default function ScenarioPicker() {
                 <p className="text-sm text-slate-500">{s.description}</p>
                 {locked && (
                   <p className="mt-1 text-xs font-bold text-warning-600">
-                    Unlocks at level {s.minLevel}
+                    🔒 Unlocks at level {s.minLevel}
                   </p>
                 )}
               </div>

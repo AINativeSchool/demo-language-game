@@ -1,4 +1,4 @@
-// Central tunable constants for LingoQuest's gamification economy.
+// Central tunable constants for LINGOCRAFT's gamification economy.
 
 // Coins-to-screen-time convention: 100 coins = 15 minutes of entertainment.
 export const REDEEM_RATE = { coins: 100, minutes: 15 } as const;

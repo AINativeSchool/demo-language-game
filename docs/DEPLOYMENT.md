@@ -1,4 +1,4 @@
-# Deploying LingoQuest
+# Deploying LINGOCRAFT
 
 Deploy the Next.js app on any Linux VM with Node.js 20+. No database — progress lives in the browser's `localStorage`; the only server secret is your LLM API key ([`.env.example`](../.env.example), via [resilient-llm](https://www.npmjs.com/package/resilient-llm)).
 
@@ -10,7 +10,7 @@ Internet → Nginx (443) → Next.js (:3000) → LLM provider
 
 - Ubuntu (or similar), `sudo` access, ports **22**, **80**, **443** open
 - Domain pointed at the VM (for HTTPS)
-- LLM key in `.env.local` (OpenAI default, or OpenRouter `openrouter/free` — see `.env.example`)
+- LLM key in `.env` (OpenAI default, or OpenRouter `openrouter/free` — see `.env.example`)
 
 ```bash
 sudo apt update && sudo apt install -y git nginx
@@ -28,8 +28,8 @@ sudo mkdir -p /var/www && sudo chown "$USER":"$USER" /var/www
 cd /var/www
 git clone <YOUR_REPO_URL> lingoquest && cd lingoquest
 
-cp .env.example .env.local   # add your API key
-chmod 600 .env.local
+cp .env.example .env   # add your API key
+chmod 600 .env
 
 npm ci && npm run build
 ```
@@ -43,7 +43,7 @@ NODE_BIN=$(dirname "$(nvm which default)")
 
 sudo tee /etc/systemd/system/lingoquest.service > /dev/null <<EOF
 [Unit]
-Description=LingoQuest
+Description=LINGOCRAFT
 After=network.target
 
 [Service]
@@ -53,7 +53,7 @@ WorkingDirectory=/var/www/lingoquest
 Environment=NODE_ENV=production
 Environment=PORT=3000
 Environment=PATH=$NODE_BIN:/usr/bin:/bin
-EnvironmentFile=/var/www/lingoquest/.env.local
+EnvironmentFile=/var/www/lingoquest/.env
 ExecStart=$NODE_BIN/npm run start
 Restart=always
 

@@ -8,9 +8,9 @@ import CoinBadge from "./CoinBadge";
 import SchoolBadge from "./SchoolBadge";
 
 const LINKS = [
-  { href: "/", label: "Map", emoji: "🗺️" },
-  { href: "/vocabulary", label: "Words", emoji: "📚" },
-  { href: "/shop", label: "Screen-Time", emoji: "🎮" },
+  { href: "/", label: "World", emoji: "🗺️" },
+  { href: "/vocabulary", label: "Loot", emoji: "📦" },
+  { href: "/shop", label: "Shop", emoji: "🎮" },
 ];
 
 export default function Nav() {
@@ -20,12 +20,10 @@ export default function Nav() {
     <header className="sticky top-0 z-20 bg-white/85 shadow-[0_6px_20px_-8px_#4c1d9540] backdrop-blur">
       <nav className="mx-auto flex w-full max-w-5xl items-center justify-between gap-3 px-4 py-3">
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-2xl" aria-hidden>
-            🌍
-          </span>
-          <div className="flex flex-col gap-0.5">
-            <span className="text-xl font-extrabold leading-none text-accent-700 pixel-shadow">
-              LingoQuest
+          <span className="grass-block shrink-0" aria-hidden />
+          <div className="flex flex-col gap-1">
+            <span className="brand-logo text-sm leading-none sm:text-base">
+              LINGOCRAFT
             </span>
             <SchoolBadge />
           </div>

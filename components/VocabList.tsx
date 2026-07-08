@@ -12,13 +12,13 @@ export default function VocabList() {
     return (
       <div className="game-card p-6 text-center">
         <p className="mb-3 text-slate-500">
-          No words yet. Chat with a character to start your collection! 📚
+          Chest is empty! Start a quest to mine your first word loot. 📦
         </p>
         <Link
           href="/"
-          className="game-btn inline-block bg-accent-600 text-white shadow-[0_5px_0_0_var(--color-accent-700)]"
+          className="block-btn inline-block bg-accent-600 text-white"
         >
-          Start a chat
+          ▶ Start a Quest
         </Link>
       </div>
     );

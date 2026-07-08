@@ -39,33 +39,33 @@ export default function OnboardingTour() {
     >
       <div className="game-card w-full max-w-sm p-6 text-center">
         <p className="text-4xl" aria-hidden>
-          🎒
+          ⛏️
         </p>
         <h2
           id="onboarding-title"
-          className="mt-3 text-xl font-extrabold text-accent-800"
+          className="mt-3 text-lg font-extrabold text-accent-800 pixel-title"
         >
-          English for school students
+          Welcome to LINGOCRAFT
         </h2>
-        <p className="mt-2 text-sm text-slate-600">
-          Chat to earn coins. Redeem them at the{" "}
-          <strong>Screen-Time Shop</strong> 🎮 ({REDEEM_RATE.coins} coins ={" "}
-          {REDEEM_RATE.minutes} min).
+        <p className="mt-3 text-sm text-slate-600">
+          Chat with characters to mine <strong>💎 Gems</strong>. Trade them at
+          the <strong>Loot Shop</strong> 🎮 for screen time (
+          {REDEEM_RATE.coins} gems = {REDEEM_RATE.minutes} min).
         </p>
         <div className="mt-5 flex gap-2">
           <button
             type="button"
             onClick={finish}
-            className="game-btn flex-1 bg-white text-accent-800 shadow-[0_4px_0_0_var(--color-accent-200)]"
+            className="block-btn flex-1 bg-success-500 text-white"
           >
-            Start
+            ▶ Play
           </button>
           <Link
             href="/shop"
             onClick={finish}
-            className="game-btn flex-1 bg-accent-600 text-white shadow-[0_5px_0_0_var(--color-accent-700)]"
+            className="block-btn flex-1 bg-accent-600 text-white"
           >
-            Shop
+            Loot Shop
           </Link>
         </div>
       </div>

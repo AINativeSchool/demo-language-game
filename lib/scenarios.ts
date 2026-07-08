@@ -48,12 +48,54 @@ export const SCENARIOS: Scenario[] = [
 
 // The journey: the avatar travels stop-by-stop toward an English-speaking country.
 export const MAP_REGIONS: MapRegion[] = [
-  { id: "home", name: "Home Village", emoji: "🏡" },
-  { id: "harbor", name: "Harbor Town", emoji: "⚓" },
-  { id: "airport", name: "Sky Airport", emoji: "✈️" },
-  { id: "london", name: "London", emoji: "🎡" },
-  { id: "newyork", name: "New York", emoji: "🗽" },
-  { id: "sydney", name: "Sydney", emoji: "🌉" },
+  {
+    id: "home",
+    name: "Home Village",
+    emoji: "🏡",
+    imageUrl:
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=640&q=80&auto=format&fit=crop",
+    blurb: "Spawn point unlocked. Let's go!",
+  },
+  {
+    id: "harbor",
+    name: "Harbor Town",
+    emoji: "⚓",
+    imageUrl:
+      "https://images.unsplash.com/photo-1493558103817-58b2924bce98?w=640&q=80&auto=format&fit=crop",
+    blurb: "Dock checkpoint — chat to board the ship.",
+  },
+  {
+    id: "airport",
+    name: "Sky Airport",
+    emoji: "✈️",
+    imageUrl:
+      "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=640&q=80&auto=format&fit=crop",
+    blurb: "Launch pad ready. Next stop: English cities!",
+  },
+  {
+    id: "london",
+    name: "London",
+    emoji: "🎡",
+    imageUrl:
+      "https://images.unsplash.com/photo-1513635269971-8639958656c5?w=640&q=80&auto=format&fit=crop",
+    blurb: "New world unlocked: London stage!",
+  },
+  {
+    id: "newyork",
+    name: "New York",
+    emoji: "🗽",
+    imageUrl:
+      "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=640&q=80&auto=format&fit=crop",
+    blurb: "Big city stage — keep the combo going!",
+  },
+  {
+    id: "sydney",
+    name: "Sydney",
+    emoji: "🌉",
+    imageUrl:
+      "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8c9?w=640&q=80&auto=format&fit=crop",
+    blurb: "Final stage clear? Keep grinding those chats!",
+  },
 ];
 
 // Cosmetic avatars. The first is free and owned by default.
