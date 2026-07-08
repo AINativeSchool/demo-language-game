@@ -2,6 +2,8 @@
 
 Deploy the Next.js app on any Linux VM with Node.js 20+. No database — progress lives in the browser's `localStorage`; the only server secret is your LLM API key ([`.env.example`](../.env.example), via [resilient-llm](https://www.npmjs.com/package/resilient-llm)).
 
+The app can run at the site root (`/`) or under a subpath (e.g. `/language`). Set `NEXT_PUBLIC_BASE_PATH` in `.env` before `npm run build` so Next.js routing and client `fetch()` calls share the same prefix (see [`.env.example`](../.env.example)). If unset, `next.config.ts` defaults to `/language`.
+
 ```
 Internet → Nginx (443) → Next.js (:3000) → LLM provider
 ```
@@ -11,6 +13,7 @@ Internet → Nginx (443) → Next.js (:3000) → LLM provider
 - Ubuntu (or similar), `sudo` access, ports **22**, **80**, **443** open
 - Domain pointed at the VM (for HTTPS)
 - LLM key in `.env` (OpenAI default, or OpenRouter `openrouter/free` — see `.env.example`)
+- Optional `NEXT_PUBLIC_BASE_PATH` in `.env` if the app is not served at `/` (must match the nginx `location` prefix; rebuild after changing)
 
 ```bash
 sudo apt update && sudo apt install -y git nginx
@@ -28,13 +31,13 @@ sudo mkdir -p /var/www && sudo chown "$USER":"$USER" /var/www
 cd /var/www
 git clone https://github.com/AINativeSchool/demo-language-game lingocraft && cd lingocraft
 
-cp .env.example .env   # add your API key
+cp .env.example .env   # add your API key; set NEXT_PUBLIC_BASE_PATH if needed
 chmod 600 .env
 
 npm ci && npm run build
 ```
 
-Smoke-test: `npm run start` → visit `http://<VM_IP>:3000`, then `Ctrl+C`.
+Smoke-test: `npm run start` → visit `http://<VM_IP>:3000/language` (or `http://<VM_IP>:3000` when `NEXT_PUBLIC_BASE_PATH` is empty), then `Ctrl+C`.
 
 ## 3. Run with systemd
 
@@ -67,13 +70,15 @@ sudo systemctl enable --now lingocraft
 
 ## 4. Nginx + HTTPS
 
+Proxy the same path prefix as `NEXT_PUBLIC_BASE_PATH` (example below uses `/language`). No separate `location /api/` shim is needed — the app calls `{basePath}/api/chat` directly.
+
 ```bash
 sudo tee /etc/nginx/sites-available/lingocraft > /dev/null <<'EOF'
 server {
     listen 80;
     server_name your-domain.com;
 
-    location / {
+    location /language/ {
         proxy_pass http://127.0.0.1:3000;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -102,6 +107,6 @@ sudo systemctl restart lingocraft
 ```
 
 - **Logs:** `journalctl -u lingocraft -f`
-- **Health:** `/` returns 200; chat uses `POST /api/chat`
+- **Health:** `{basePath}/` returns 200 (e.g. `/language/`); chat uses `POST {basePath}/api/chat` (e.g. `/language/api/chat`)
 - **Fallback:** missing/invalid LLM key → non-AI fallback reply; check logs for `LLM chat failed, using fallback`
 - **Sizing:** 1 vCPU / 1 GB RAM is fine for light use (add swap if the build runs out of memory)
