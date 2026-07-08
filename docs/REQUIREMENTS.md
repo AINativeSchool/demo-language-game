@@ -10,9 +10,9 @@ A gamified language-learning web app for school students. Learners practice **re
 
 ## 2. Scope (v1 / MVP)
 
-- **Platform:** Web app.
-- **Users:** Single learner, no login/accounts yet (local progress).
-- **Language:** English practice (fluency + vocabulary building).
+- ✅ **Platform:** Web app.
+- ✅ **Users:** Single learner, no login/accounts yet (local progress).
+- ✅ **Language:** English practice (fluency + vocabulary building).
 
 
 
@@ -22,28 +22,29 @@ A gamified language-learning web app for school students. Learners practice **re
 
 ### 3.1 Real-Time Conversation Practice
 
-- Text chat with an **LLM-powered AI character**.
-- **Register toggle:** learner chooses **Formal** or **Informal** before/within a conversation; the AI adapts tone accordingly.
-- Scenario-based dialogues (e.g., ordering food, meeting a friend, asking directions).
-- In-context feedback: gentle correction of grammar/word choice and suggestions to expand vocabulary.
-- Vocabulary capture: new/notable words surfaced and saved during chats.
+- ✅ Text chat with an **LLM-powered AI character**.
+- ✅ **Register toggle:** learner chooses **Formal** or **Informal** before/within a conversation; the AI adapts tone accordingly.
+- ✅ Scenario-based dialogues (e.g., ordering food, meeting a friend, asking directions).
+- ✅ In-context feedback: gentle correction of grammar/word choice and suggestions to expand vocabulary.
+- ✅ Vocabulary capture: new/notable words surfaced and saved during chats.
 
 
 
 ### 3.2 Gamification & Rewards
 
-- **Coins** earned by completing conversations/quests; coins convert into **allowed entertainment/screen time**.
-- **Avatars & animated characters** the learner can pick and unlock.
-- **World map journey:** learner's avatar travels toward/through the country where the language is spoken, unlocking new regions as they progress.
-- Game-inspired feel (Roblox/Minecraft): playful visuals, exploration, unlockables.
-- Progression: levels/XP tied to map advancement and conversation milestones.
+- ✅ **Coins** earned by completing conversations/quests; coins convert into **allowed entertainment/screen time**.
+- ✅ **Avatars & animated characters** the learner can pick and unlock.
+- ✅ **World map journey:** learner's avatar travels toward/through the country where the language is spoken, unlocking new regions as they progress.
+- ✅ Game-inspired feel (Roblox/Minecraft): playful visuals, exploration, unlockables.
+- ✅ Progression: levels/XP tied to map advancement and conversation milestones.
 
 
 
 ### 3.3 Learner Progress
 
-- Track completed scenarios, coins earned, words learned, and map progress.
-- Persist progress locally (per browser) for MVP.
+- Track completed scenarios.
+- ✅ Track coins earned, words learned, and map progress.
+- ✅ Persist progress locally (per browser) for MVP.
 
 
 
@@ -58,10 +59,10 @@ A gamified language-learning web app for school students. Learners practice **re
 
 ## 5. Key Screens
 
-1. **Home / Map** — world journey, current location, coin balance, avatar.
-2. **Conversation** — chat UI with AI character + formal/informal toggle + live feedback panel.
-3. **Vocabulary** — saved words with meaning/example.
-4. **Rewards/Shop** — spend coins on avatars/characters and screen-time.
+1. ✅ **Home / Map** — world journey, current location, coin balance, avatar.
+2. ✅ **Conversation** — chat UI with AI character + formal/informal toggle + live feedback panel.
+3. ✅ **Vocabulary** — saved words with meaning/example.
+4. ✅ **Rewards/Shop** — spend coins on avatars/characters and screen-time.
 
 
 
@@ -76,5 +77,5 @@ A gamified language-learning web app for school students. Learners practice **re
 
 ## 7. Success Criteria
 
-- A learner can hold a coherent formal or informal conversation, receive helpful corrections, earn coins, and see their avatar advance on the map — all in one session.
+- ✅ A learner can hold a coherent formal or informal conversation, receive helpful corrections, earn coins, and see their avatar advance on the map — all in one session.
 
